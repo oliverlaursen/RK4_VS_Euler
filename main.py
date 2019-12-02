@@ -22,7 +22,7 @@ def euler(diff, P0, n, h):
 	"""
 	P0x=P0[0]
 	P0y=P0[1]
-	xakse = np.linspace(P0x,n*h, n-(P0x/h)+1)	# List comprehension anvendes til at skabe en liste af x-aksens værdier
+	xakse = np.arange(P0x,n*h+P0x+h, h)		# X-aksen skabes med h stort mellemrum imellem hver værdi.
 	print(xakse)
 
 
