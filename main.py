@@ -12,7 +12,7 @@ def f(P0):
 	"""
 	P0x=P0[0]	# Tuplen slices for at får koordinaterne opdelt i to variable
 	P0y=P0[1]
-	return 0.5*P0x+P0y
+	return 0.5*P0x*P0y
 
 def euler(diff, P0, n, h):
 	"""
@@ -34,23 +34,27 @@ def euler(diff, P0, n, h):
 def rk4(diff, P0, n, h):
 	P0x=P0[0]
 	P0y=P0[1]
-	xakse=np.arrange(P0x, n*h+P0x+h, h)
+	xakse=np.arange(P0x, n*h+P0x+h, h)
 	yakse=[P0y,]
 
 	for i in range(n-1):
 		k1=h*diff((xakse[i],yakse[i]))
-		k2=h*diff((xakse[i]+h/2, yakse[i]+0.5*k1))
-		k3=h*diff((xakse[i]+h/2, yakse[i]+0.5*k2))
+		k2=h*diff((xakse[i]+(h/2), yakse[i]+(k1/2)))
+		k3=h*diff((xakse[i]+(h/2), yakse[i]+(k2/2)))
 		k4=h*diff((xakse[i]+h, yakse[i]+k3))
 
-		yvalue=yakse[i]+1/6*h*(k1+2*k2+2*k3+k4)
-		yakse.append(yvalue)
+		yvalue=yakse[i]+((1/6)*h*(k1+(2*k2)+(2*k3)+k4))
+		yakse.append(round(yvalue,5))
+
+		print(f'k1={k1}, k2={k2}, k3={k3}, k4={k4}, rk4={yvalue}, n={i}')
+
 
 	return yakse
 
 
 
 if __name__ == '__main__':
-	euler(f,startpunkt, n,h)
+	print(rk4(f,startpunkt,n,h))
+	#print(euler(f,startpunkt,n,h))
 
 
