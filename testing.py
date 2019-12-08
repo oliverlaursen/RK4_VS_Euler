@@ -1,36 +1,52 @@
 #unicode=utf8
 
-import unittest
 from main import *
-import numpy.testing
 from math import *
 
 
+def beregn_præcision(a,b):
+	"""
+		Beregner den gennemsnitlige overensstemmelse i procent af listen a i forhold til listen b
+		Listerne må KUN indeholde floats
+	"""
+	accuracy=0		#instansier variabel
+	shortestlist=None
 
-geogebra_result_euler=[1.00000000000000,1.00000000000000,1.00500000000000,1.01505000000000,1.03027575000000,1.05088126500000,1.07715329662500,1.10946789552375,1.14829927186708,
-	1.19423124274177,1.24797164866515,1.31037023109840,1.38244059380881,1.46538702943734,1.56063718635077,1.66988178939532,1.79512292359997,1.93873275748797,2.10352504187445,
-	2.29284229564315,2.51066231372925,2.76172854510217,3.05171004233790,3.38739814699507,3.77694893389950,4.23018280596745,4.75895565671338,5.37761989208612,6.10359857751774,
-	6.95810237837023,7.96702722323391,9.16208130671900,10.5822039092604,12.2753565347421,14.3007903629746,16.7319247246802,19.6600115514993,23.1988136307692,27.4905941524615,
-	32.7138070414291,39.0929994145078,46.9115992974094,56.5284771533783,68.3994573555878,83.1053406870391,101.388515638188,124.200931656780,152.767145937839,188.667425233232,
-	233.947607289207]
+	if len(a)>len(b):
+		shortestlist=b 		# Den korteste liste findes, for at undgå fejl med list index i loop ved gennemløb af liste
+	else:
+		shortestlist=a
 
-geogebra_result_rk4=[1.00000000000000,1.00250312760417,1.01005016706764,1.02275503410404,1.04081077403532,1.06449445856980,1.09417428299764,1.13031911870969,1.17351086845851,
-1.22446008056100,1.28402540869849,1.35323766277437,1.43332939178408,1.52577118238939,1.63231616031320,1.75505456301980,1.89648073362525,2.05957549631792,2.24790765005480,
-2.46575930851397,2.71828108371188,3.01168474154927,3.35348305924022,3.75278933138331,4.22069249418657,4.77072841922838,5.41947390600718,6.18729772603865,7.09931334236015,
-8.18659145537349,9.48770839793291,11.0507300909280,12.9357627699536,15.2182437164052,17.9932014727801,21.3807905563471,25.5335074611993,30.6456323349226,36.9656273717150,
-44.8124770373548,54.5973022759408,66.8520565026748,82.2677654109930,101.745675623429,126.465928013625,157.980110262305,198.336468911200,250.249957498591,317.334069982909,
-404.418139862753,517.983313903656,]
+	for i in range(len(shortestlist)):
+		acc=100-(abs(a[i]-b[i])/b[i])*100
+		accuracy+=acc
 
-def get_eksakt_values(f,n,h):
+
+	accuracy /= len(shortestlist)
+	return accuracy
+
+def get_eksakt_values(f,n,h, P0x):
+	"""
+		Beregner funktionsværdierne for en funktion f som starter ved x=P0x med n antal iterationer og h stor skridtlængde
+	"""
 	values=[]
 	for i in range(n):
-		val=round(f(i*h),5)
+		val=round(f((i*h)+P0x),5)
 		values.append(val)
 
+	return values
+
+
 def eksakt(x):
+	"""
+		Den eksakte løsningsfunktion til funktionen f(P0)
+	"""
 	return e**((x**2)/4)
 
 def f(P0):
+	"""
+		Differentialligningen f(P0)=f(x,y)=y' som har løsningsfunktionen eksakt(x)
+	"""
 	return 0.5*P0[0]*P0[1]
 
 P0=(0,1)
@@ -38,7 +54,5 @@ n=50
 h=0.1
 
 if __name__ == '__main__':
-	#unittest.main()
-	#print(numpy.testing.assert_allclose(euler(f,P0,n,h),geogebra_result))
-	print(numpy.testing.assert_allclose(rk4(f,P0,n,h), get_eksakt_values(eksakt,n,h)))
-
+	print(f'Gennemsnitlig overensstemmelse mellem RK4 og Eksakt er: {beregn_præcision(rk4(f,P0,n,h), get_eksakt_values(eksakt,n,h,P0[0]))}%')
+	print(f'Gennemsnitlig overensstemmelse mellem Eulers metode og Eksakt er: {beregn_præcision(euler(f,P0,n,h), get_eksakt_values(eksakt,n,h,P0[0]))}%')

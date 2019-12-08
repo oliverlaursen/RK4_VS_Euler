@@ -26,7 +26,7 @@ def euler(diff, P0, n, h):
 	yakse=[P0y,]
 	
 	for i in range(n-1):
-		yvalue=round(yakse[i]+h*diff((xakse[i], yakse[i])), 5)
+		yvalue=yakse[i]+(h*diff((xakse[i], yakse[i])))
 		yakse.append(yvalue)
 
 	return yakse
@@ -44,17 +44,12 @@ def rk4(diff, P0, n, h):
 		k4=h*diff((xakse[i]+h, yakse[i]+k3))
 
 		yvalue=yakse[i]+((1/6)*(k1+(2*k2)+(2*k3)+k4))
-		yakse.append(round(yvalue,5))
-
-
-
+		yakse.append(yvalue)
 
 	return yakse
 
 
 
-if __name__ == '__main__':
-	print(rk4(f,startpunkt,n,h))
-	#print(euler(f,startpunkt,n,h))
+
 
 
