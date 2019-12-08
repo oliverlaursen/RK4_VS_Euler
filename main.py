@@ -43,10 +43,10 @@ def rk4(diff, P0, n, h):
 		k3=h*diff((xakse[i]+(h/2), yakse[i]+(k2/2)))
 		k4=h*diff((xakse[i]+h, yakse[i]+k3))
 
-		yvalue=yakse[i]+((1/6)*h*(k1+(2*k2)+(2*k3)+k4))
+		yvalue=yakse[i]+((1/6)*(k1+(2*k2)+(2*k3)+k4))
 		yakse.append(round(yvalue,5))
 
-		print(f'k1={k1}, k2={k2}, k3={k3}, k4={k4}, rk4={yvalue}, n={i}')
+
 
 
 	return yakse
