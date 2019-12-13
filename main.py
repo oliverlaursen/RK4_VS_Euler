@@ -1,6 +1,7 @@
 #unicode=utf-8
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 n=50	 	# Antal iterationer
 h=0.1	# Skridtlængde
@@ -34,7 +35,7 @@ def euler(diff, P0, n, h):
 def rk4(diff, P0, n, h):
 	P0x=P0[0]
 	P0y=P0[1]
-	xakse=np.arange(P0x, n*h+P0x+h, h)
+	xakse=np.arange(P0x, n*h+P0x, h)
 	yakse=[P0y,]
 
 	for i in range(n-1):
@@ -47,6 +48,40 @@ def rk4(diff, P0, n, h):
 		yakse.append(yvalue)
 
 	return yakse
+
+def draw_graph(data,names,h,P0x,functions=None):
+	"""
+		Denne funktion optegner grafer ud fra y-værdierne data, skridtlængde h og startværdi P0x
+		Optegning af funktioner vil være muligt ved angivelse af functions parameteren
+
+		data er en liste af y-værdier som skal optegnes
+
+		Hver løsning opgivet i data skal have samme skridtlængde h og samme startpunkt P0x, dog
+		kan n variere.
+
+	"""
+	plt.xlabel('x')
+	plt.ylabel('y')
+
+
+	for i in range(len(data)):
+		n=len(data[i])		# n kan findes for hver løsning ud fra længden af listen for dataet
+		xaxis=np.arange(P0x, n*h+P0x, h)
+		plt.plot(xaxis,data[i],marker='o',label=names[i])
+
+	if functions is not None:
+		largestn=0
+		for i in data:
+			if len(i)>largestn:
+				largestn=len(i)		# Finder den største n for at bestemme x-aksen til funktionerne
+		largestxaxis=np.arange(P0x, largestn*h+P0x,h)
+
+		for i in range(len(functions)):
+			plt.plot(largestxaxis,functions[i](largestxaxis),label=names[i+len(data)])
+
+	plt.legend(loc='upper left')
+	plt.show()
+
 
 
 

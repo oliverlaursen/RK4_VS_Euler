@@ -9,8 +9,7 @@ def beregn_præcision(a,b):
 		Beregner den gennemsnitlige overensstemmelse i procent af listen a i forhold til listen b
 		Listerne må KUN indeholde floats
 	"""
-	SS_tot=0		#instansier variabel
-	SS_res=0
+	kvadratsumfejl=0
 	shortestlist=None
 
 	if len(a)>len(b):
@@ -18,16 +17,10 @@ def beregn_præcision(a,b):
 	else:
 		shortestlist=a
 
-	avg_y_b = sum(b)/len(b)	# Den gennemsnitlige y-værdi af listen b
-
 	for i in range(len(shortestlist)):
-		SS_tot+=(a[i]-avg_y_b)**2
-		SS_res+=(a[i]-b[i])**2
+		kvadratsumfejl+=(a[i]-b[i])**2
 
-
-
-	accuracy = 1 - (SS_res/SS_tot)
-	return accuracy
+	return kvadratsumfejl
 
 def get_eksakt_values(f,n,h, P0x):
 	"""
@@ -43,7 +36,7 @@ def get_eksakt_values(f,n,h, P0x):
 
 def eksaktf(x):
 	"""
-		Den eksakte løsningsfunktion til funktionen f(P0x,P0y)
+		Den eksakte løsning til differentialligningen f(P0x,P0y)
 	"""
 	return e**((x**2)/4)
 
@@ -55,7 +48,7 @@ def f(x,y):
 
 def eksaktg(x):
 	"""
-		Den eksakte løsnings til differentialligningen eksaktg(P1x,P1y)
+		Den eksakte løsning til differentialligningen g(P1x,P1y)
 	"""
 	return log((x**2*e**2+2)/(2*(e**2)))
 
@@ -67,13 +60,15 @@ def g(x,y):
 
 P0=(0,1)
 P1=(0,-2)
-n=50
-h=0.1
+n=20
+h=0.2
 
 if __name__ == '__main__':
-	print(f'Gennemsnitlig overensstemmelse mellem RK4 og Eksakt i f er: {beregn_præcision(rk4(f,P0,n,h), get_eksakt_values(eksaktf,n,h,P0[0]))}%')
-	print(f'Gennemsnitlig overensstemmelse mellem Eulers metode og Eksakt i f er: {beregn_præcision(euler(f,P0,n,h), get_eksakt_values(eksaktf,n,h,P0[0]))}%')
+	print(f'Kvadratsumfejl mellem RK4 og Eksakt i f er: {beregn_præcision(rk4(f,P0,n,h), get_eksakt_values(eksaktf,n,h,P0[0]))}')
+	print(f'Kvadratsumfejl mellem Eulers metode og Eksakt i f er: {beregn_præcision(euler(f,P0,n,h), get_eksakt_values(eksaktf,n,h,P0[0]))}')
 
-	print(f'Gennemsnitlig overensstemmelse mellem RK4 og Eksakt i g er: {beregn_præcision(rk4(g,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}%')
-	print(f'Gennemsnitlig overensstemmelse mellem Eulers metode og Eksakt i g er: {beregn_præcision(euler(f,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}%')
+	print(f'Kvadratsumfejl mellem RK4 og Eksakt i g er: {beregn_præcision(rk4(g,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}')
+	print(f'Kvadratsumfejl mellem Eulers metode og Eksakt i g er: {beregn_præcision(euler(f,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}')
+
+	draw_graph([rk4(f,P0,n,h),euler(f,P0,n,h),rk4(g,P0,n,h),euler(g,P0,n,h)],['RK4 af f(x)','EM af f(x)','RK4 af g(x)','EM af g(x)','f(x)','g(x)'],h,P0[0],functions=[eksaktf])
 
