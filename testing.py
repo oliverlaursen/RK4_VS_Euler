@@ -7,28 +7,22 @@ from math import *
 def beregn_præcision(a,b):
 	"""
 		Beregner den gennemsnitlige overensstemmelse i procent af listen a i forhold til listen b
-		Listerne må KUN indeholde floats
+		Listerne må KUN indeholde floats og listerne SKAL indeholde lige mange elementer
 	"""
-	kvadratsumfejl=0
-	shortestlist=None
+	rkv=0
 
-	if len(a)>len(b):
-		shortestlist=b 		# Den korteste liste findes, for at undgå fejl med list index i loop ved gennemløb af liste
-	else:
-		shortestlist=a
+	for i in range(len(a)):
+		rkv+=(a[i]-b[i])**2
 
-	for i in range(len(shortestlist)):
-		kvadratsumfejl+=(a[i]-b[i])**2
+	return rkv
 
-	return kvadratsumfejl
-
-def get_eksakt_values(f,n,h, P0x):
+def get_eksakt_values(f,n,h, x0):
 	"""
 		Beregner funktionsværdierne for en funktion f som starter ved x=P0x med n antal iterationer og h stor skridtlængde
 	"""
 	values=[]
 	for i in range(n):
-		val=f((i*h))
+		val=f((i*h)+x0)
 		values.append(val)
 
 	return values
@@ -60,8 +54,7 @@ def g(x,y):
 
 P0=(0,1)
 P1=(-2,2)
-n=25
-h=0.1
+
 
 if __name__ == '__main__':
 	print(f'Kvadratsumfejl RK4 tilfælde 1: {beregn_præcision(rk4(f,P0,10,0.1)[1], get_eksakt_values(eksaktf,10,0.1,P0[0]))}		time = {rk4(f,P0,10,0.1)[0]}')

@@ -6,8 +6,8 @@ import time
 
 def euler(diff, P0, n, h):
 	"""
-		Denne metode tilnærmer sig løsningen til differentialligningen diff,
-		der går i gennem punktet P0. Tilnærmelsen afhænger af skridtlængden h
+		Denne funktion bruger Eulers metode til at tilnærme sig løsningen til differentialligningen 
+		diff, der går i gennem punktet P0. Tilnærmelsen afhænger af skridtlængden h
 		og antal iterationer/gentagelser n
 
 		Metoden returner en tuple hvori det første element er den tid, funktionen 
@@ -23,10 +23,17 @@ def euler(diff, P0, n, h):
 		yvalue=yakse[i]+(h*diff(xakse[i], yakse[i]))
 		yakse.append(yvalue)
 
-	eksekveringstid=time.time()-start_time
+	eksekveringstid=time.time()-start_time		# Den tid det tog for computeren at beregne tilnærmelserne med Eulers metode
 	return (eksekveringstid,yakse)
 
 def rk4(diff, P0, n, h):
+	"""
+		Denne funktion anvender Runge-Kuttas 4-ordens metode til at tilnærme
+		sig løsningen til differentialligningen diff, som går igennem punktet P0
+		Tilnærmelsen afhænger af antal gentagelser n og stepstørrelsen h
+
+		Output er en tuple med eksekveringstiden og listen med tilnærmede y-værdier
+	"""
 	start_time=time.time()
 	P0x=P0[0]
 	P0y=P0[1]
@@ -44,14 +51,14 @@ def rk4(diff, P0, n, h):
 	eksekveringstid=time.time()-start_time
 	return (eksekveringstid, yakse)
 
-def draw_graph(data,names,h,P0x,functions=None):
+def draw_graph(data,names,h,x0,functions=None):
 	"""
 		Denne funktion optegner grafer ud fra y-værdierne data, skridtlængde h og startværdi P0x
 		Optegning af funktioner vil være muligt ved angivelse af functions parameteren
 
 		data er en liste af y-værdier som skal optegnes
 
-		Hver løsning opgivet i data skal have samme skridtlængde h og samme startpunkt P0x, dog
+		Hver løsning opgivet i data skal have samme skridtlængde h og samme start-værdi P0x, dog
 		kan n variere.
 
 	"""
@@ -61,7 +68,7 @@ def draw_graph(data,names,h,P0x,functions=None):
 
 	for i in range(len(data)):
 		n=len(data[i])		# n kan findes for hver løsning ud fra længden af listen for dataet
-		xaxis=np.arange(P0x, n*h+P0x, h)
+		xaxis=np.arange(x0, n*h+x0, h)
 		plt.plot(xaxis,data[i],marker='o',label=names[i])
 
 	if functions is not None:
@@ -69,7 +76,7 @@ def draw_graph(data,names,h,P0x,functions=None):
 		for i in data:
 			if len(i)>largestn:
 				largestn=len(i)		# Finder den største n for at bestemme x-aksen til funktionerne
-		largestxaxis=np.arange(P0x, (largestn-1)*h,0.001)
+		largestxaxis=np.arange(x0, (largestn-1)*h,0.001)
 
 		for i in range(len(functions)):
 			plt.plot(largestxaxis,functions[i](largestxaxis),label=names[i+len(data)])
