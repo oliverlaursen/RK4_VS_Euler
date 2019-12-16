@@ -28,7 +28,7 @@ def get_eksakt_values(f,n,h, P0x):
 	"""
 	values=[]
 	for i in range(n):
-		val=round(f((i*h)+P0x),5)
+		val=f((i*h))
 		values.append(val)
 
 	return values
@@ -50,25 +50,33 @@ def eksaktg(x):
 	"""
 		Den eksakte løsning til differentialligningen g(P1x,P1y)
 	"""
-	return log((x**2*e**2+2)/(2*(e**2)))
+	return (((4*x**3)+80)/3)**(1/4)
 
 def g(x,y):
 	"""
 		Differentialligningen g(P1)=f(x,y) som har løsningsfunktionen eksaktg(x)
 	"""
-	return x*e**(-y)
+	return (x**2)/(y**3)
 
 P0=(0,1)
-P1=(0,-2)
-n=10
+P1=(-2,2)
+n=25
 h=0.1
 
 if __name__ == '__main__':
-	print(f'Kvadratsumfejl mellem RK4 og Eksakt i f er: {beregn_præcision(rk4(f,P0,n,h), get_eksakt_values(eksaktf,n,h,P0[0]))}')
-	print(f'Kvadratsumfejl mellem Eulers metode og Eksakt i f er: {beregn_præcision(euler(f,P0,n,h), get_eksakt_values(eksaktf,n,h,P0[0]))}')
+	print(f'Kvadratsumfejl RK4 tilfælde 1: {beregn_præcision(rk4(f,P0,10,0.1), get_eksakt_values(eksaktf,10,0.1,P0[0]))}')
+	print(f'Kvadratsumfejl Euler tilfælde 1: {beregn_præcision(euler(f,P0,10,0.1), get_eksakt_values(eksaktf,10,0.1,P0[0]))}')
+	print('\n')
+	print(f'Kvadratsumfejl RK4 tilfælde 2: {beregn_præcision(rk4(f,P0,10,0.5), get_eksakt_values(eksaktf,10,0.5,P0[0]))}')
+	print(f'Kvadratsumfejl Euler tilfælde 2: {beregn_præcision(euler(f,P0,10,0.5), get_eksakt_values(eksaktf,10,0.5,P0[0]))}')
+	print('\n')
+	print(f'Kvadratsumfejl RK4 tilfælde 3: {beregn_præcision(rk4(g,P1,25,0.1), get_eksakt_values(eksaktg,25,0.1,P1[0]))}')
+	print(f'Kvadratsumfejl Euler tilfælde 3: {beregn_præcision(euler(g,P1,25,0.1), get_eksakt_values(eksaktg,25,0.1,P1[0]))}')
+	print('\n')
+	print(f'Kvadratsumfejl RK4 tilfælde 4: {beregn_præcision(rk4(g,P1,50,0.1), get_eksakt_values(eksaktg,50,0.1,P1[0]))}')
+	print(f'Kvadratsumfejl Euler tilfælde 4: {beregn_præcision(euler(g,P1,50,0.1), get_eksakt_values(eksaktg,50,0.1,P1[0]))}')
 
-	print(f'Kvadratsumfejl mellem RK4 og Eksakt i g er: {beregn_præcision(rk4(g,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}')
-	print(f'Kvadratsumfejl mellem Eulers metode og Eksakt i g er: {beregn_præcision(euler(f,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}')
-
-	draw_graph([rk4(f,P0,n,h),euler(f,P0,n,h)],['RK4 af f(x)','EM af f(x)','f(x)'],h,P0[0],functions=[eksaktf])
-
+	draw_graph([rk4(f,P0,10,0.1),euler(f,P0,10,0.1)],['RK4 af f(x)','EM af f(x)','f(x)'],0.1,P0[0],functions=[eksaktf])	# Tilfælde 1
+	draw_graph([rk4(f,P0,10,0.5),euler(f,P0,10,0.5)],['RK4 af f(x)','EM af f(x)','f(x)'],0.5,P0[0],functions=[eksaktf])	# Tilfælde 2
+	draw_graph([rk4(g,P1,25,0.1),euler(g,P1,25,0.1)],['RK4 af g(x)','EM af g(x)','g(x)'],0.1,P1[0],functions=[eksaktg]) # Tilfælde 3
+	draw_graph([rk4(g,P1,50,0.1),euler(g,P1,50,0.1)],['RK4 af g(x)','EM af g(x)','g(x)'],0.1,P1[0],functions=[eksaktg]) # Tilfælde 4
