@@ -74,7 +74,7 @@ def draw_graph(data,names,h,P0x,functions=None):
 		for i in data:
 			if len(i)>largestn:
 				largestn=len(i)		# Finder den største n for at bestemme x-aksen til funktionerne
-		largestxaxis=np.arange(P0x, largestn*h+P0x,h)
+		largestxaxis=np.arange(P0x, (largestn-1)*h,0.001)
 
 		for i in range(len(functions)):
 			plt.plot(largestxaxis,functions[i](largestxaxis),label=names[i+len(data)])

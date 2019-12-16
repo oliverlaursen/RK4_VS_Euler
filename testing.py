@@ -60,8 +60,8 @@ def g(x,y):
 
 P0=(0,1)
 P1=(0,-2)
-n=20
-h=0.2
+n=10
+h=0.1
 
 if __name__ == '__main__':
 	print(f'Kvadratsumfejl mellem RK4 og Eksakt i f er: {beregn_præcision(rk4(f,P0,n,h), get_eksakt_values(eksaktf,n,h,P0[0]))}')
@@ -70,5 +70,5 @@ if __name__ == '__main__':
 	print(f'Kvadratsumfejl mellem RK4 og Eksakt i g er: {beregn_præcision(rk4(g,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}')
 	print(f'Kvadratsumfejl mellem Eulers metode og Eksakt i g er: {beregn_præcision(euler(f,P1,n,h), get_eksakt_values(eksaktg,n,h,P1[0]))}')
 
-	draw_graph([rk4(f,P0,n,h),euler(f,P0,n,h),rk4(g,P0,n,h),euler(g,P0,n,h)],['RK4 af f(x)','EM af f(x)','RK4 af g(x)','EM af g(x)','f(x)','g(x)'],h,P0[0],functions=[eksaktf])
+	draw_graph([rk4(f,P0,n,h),euler(f,P0,n,h)],['RK4 af f(x)','EM af f(x)','f(x)'],h,P0[0],functions=[eksaktf])
 
