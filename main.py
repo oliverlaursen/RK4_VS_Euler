@@ -2,25 +2,18 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-
-n=50	 	# Antal iterationer
-h=0.1	# Skridtlængde
-startpunkt=(0,1)	#Startpunktet som løsningen skal gå igennem
-
-def f(P0):
-	"""
-		Differentialligningen y' = f(x,y)
-	"""
-	P0x=P0[0]	# Tuplen slices for at får koordinaterne opdelt i to variable
-	P0y=P0[1]
-	return 0.5*P0x*P0y
+import time
 
 def euler(diff, P0, n, h):
 	"""
 		Denne metode tilnærmer sig løsningen til differentialligningen diff,
 		der går i gennem punktet P0. Tilnærmelsen afhænger af skridtlængden h
 		og antal iterationer/gentagelser n
+
+		Metoden returner en tuple hvori det første element er den tid, funktionen 
+		har taget om at eksekvere og det andet element er listen med tilnærmede y-værdier
 	"""
+	start_time=time.time()
 	P0x=P0[0]
 	P0y=P0[1]
 	xakse = np.arange(P0x,n*h+P0x, h)		# X-aksen skabes med h stort mellemrum imellem hver værdi.
@@ -30,9 +23,11 @@ def euler(diff, P0, n, h):
 		yvalue=yakse[i]+(h*diff(xakse[i], yakse[i]))
 		yakse.append(yvalue)
 
-	return yakse
+	eksekveringstid=time.time()-start_time
+	return (eksekveringstid,yakse)
 
 def rk4(diff, P0, n, h):
+	start_time=time.time()
 	P0x=P0[0]
 	P0y=P0[1]
 	xakse=np.arange(P0x, n*h+P0x, h)
@@ -46,8 +41,8 @@ def rk4(diff, P0, n, h):
 
 		yvalue=yakse[i]+((1/6)*(k1+(2*k2)+(2*k3)+k4))
 		yakse.append(yvalue)
-
-	return yakse
+	eksekveringstid=time.time()-start_time
+	return (eksekveringstid, yakse)
 
 def draw_graph(data,names,h,P0x,functions=None):
 	"""
