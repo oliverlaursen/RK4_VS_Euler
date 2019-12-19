@@ -60,19 +60,38 @@ P1=(-2,2)
 
 
 if __name__ == '__main__':
-	print(f'Kvadratsumfejl RK4 tilfælde 1: {beregn_præcision(rk4(f,P0,25,0.1)[1], get_eksakt_values(eksaktf,25,0.1,P0[0]))}		time = {rk4(f,P0,50,0.1)[0]}')
-	print(f'Kvadratsumfejl Euler tilfælde 1: {beregn_præcision(euler(f,P0,25,0.1)[1], get_eksakt_values(eksaktf,25,0.1,P0[0]))}		time = {euler(f,P0,50,0.1)[0]}\n')
+	case_1_rk4=rk4(f,P0,25,0.1)
+	case_1_em=euler(f,P0,25,0.1)
+	case_2_rk4=rk4(f,P0,25,0.3)
+	case_2_em=euler(f,P0,25,0.3)
+	case_3_rk4=rk4(g,P1,25,0.1)
+	case_3_em=euler(g,P1,25,0.1)
+	case_4_rk4=rk4(g,P1,25,0.3)
+	case_4_em=euler(g,P1,25,0.3)
+	rk4_avg_time=(case_1_rk4[0]+case_2_rk4[0]+case_3_rk4[0]+case_4_rk4[0])/4
+	em_avg_time=(case_1_em[0]+case_2_em[0]+case_3_em[0]+case_4_em[0])/4
 
-	print(f'Kvadratsumfejl RK4 tilfælde 2: {beregn_præcision(rk4(f,P0,25,0.3)[1], get_eksakt_values(eksaktf,25,0.3,P0[0]))}		time = {rk4(f,P0,10,0.5)[0]}')
-	print(f'Kvadratsumfejl Euler tilfælde 2: {beregn_præcision(euler(f,P0,25,0.3)[1], get_eksakt_values(eksaktf,25,0.3,P0[0]))}		time = {euler(f,P0,10,0.5)[0]}\n')
+	print(f'Kvadratsumfejl RK4 tilfælde 1: {beregn_præcision(case_1_rk4[1], get_eksakt_values(eksaktf,25,0.1,P0[0]))}		time = {case_1_rk4[0]}')
+	print(f'Kvadratsumfejl Euler tilfælde 1: {beregn_præcision(case_1_em[1], get_eksakt_values(eksaktf,25,0.1,P0[0]))}			time = {case_1_em[0]}\n')
 
-	print(f'Kvadratsumfejl RK4 tilfælde 3: {beregn_præcision(rk4(g,P1,25,0.1)[1], get_eksakt_values(eksaktg,25,0.1,P1[0]))}		time = {rk4(f,P0,50,0.1)[0]}')
-	print(f'Kvadratsumfejl Euler tilfælde 3: {beregn_præcision(euler(g,P1,25,0.1)[1], get_eksakt_values(eksaktg,25,0.1,P1[0]))}		time = {euler(f,P0,50,0.1)[0]}\n')
+	print(f'Kvadratsumfejl RK4 tilfælde 2: {beregn_præcision(case_2_em[1], get_eksakt_values(eksaktf,25,0.3,P0[0]))}			time = {case_2_rk4[0]}')
+	print(f'Kvadratsumfejl Euler tilfælde 2: {beregn_præcision(case_2_rk4[1], get_eksakt_values(eksaktf,25,0.3,P0[0]))}			time = {case_2_em[0]}\n')
 
-	print(f'Kvadratsumfejl RK4 tilfælde 4: {beregn_præcision(rk4(g,P1,25,0.3)[1], get_eksakt_values(eksaktg,25,0.3,P1[0]))}		time = {rk4(f,P0,10,0.5)[0]}')
-	print(f'Kvadratsumfejl Euler tilfælde 4: {beregn_præcision(euler(g,P1,25,0.3)[1], get_eksakt_values(eksaktg,25,0.3,P1[0]))}		time = {euler(f,P0,10,0.5)[0]}')
+	print(f'Kvadratsumfejl RK4 tilfælde 3: {beregn_præcision(case_3_rk4[1], get_eksakt_values(eksaktg,25,0.1,P1[0]))}		time = {case_3_rk4[0]}')
+	print(f'Kvadratsumfejl Euler tilfælde 3: {beregn_præcision(case_3_em[1], get_eksakt_values(eksaktg,25,0.1,P1[0]))}		time = {case_3_em[0]}\n')
 
-	draw_graph([rk4(f,P0,25,0.1)[1],euler(f,P0,25,0.1)[1]],['RK4 af f(x)','EM af f(x)','f(x)'],0.1,P0[0],functions=[eksaktf])	# Tilfælde 1
-	draw_graph([rk4(f,P0,25,0.3)[1],euler(f,P0,25,0.3)[1]],['RK4 af f(x)','EM af f(x)','f(x)'],0.3,P0[0],functions=[eksaktf])	# Tilfælde 2
-	draw_graph([rk4(g,P1,25,0.1)[1],euler(g,P1,25,0.1)[1]],['RK4 af g(x)','EM af g(x)','g(x)'],0.1,P1[0],functions=[eksaktg]) # Tilfælde 3
-	draw_graph([rk4(g,P1,25,0.3)[1],euler(g,P1,25,0.3)[1]],['RK4 af g(x)','EM af g(x)','g(x)'],0.3,P1[0],functions=[eksaktg]) # Tilfælde 4
+	print(f'Kvadratsumfejl RK4 tilfælde 4: {beregn_præcision(case_4_rk4[1], get_eksakt_values(eksaktg,25,0.3,P1[0]))}		time = {case_4_rk4[0]}')
+	print(f'Kvadratsumfejl Euler tilfælde 4: {beregn_præcision(case_4_em[1], get_eksakt_values(eksaktg,25,0.3,P1[0]))}		time = {case_4_em[0]}\n')
+
+	print(f'RK4 gennemsnit tid = {rk4_avg_time}')
+	print(f'EM gennemsnit tid = {em_avg_time}')
+	print(f'EM er {rk4_avg_time/em_avg_time} gange hurtigere end RK4')
+
+	draw_graph([case_1_rk4[1],case_1_em[1]],['RK4 af f(x)','EM af f(x)','f(x)'],0.1,P0[0],functions=[eksaktf])	# Tilfælde 1
+	draw_graph([case_2_rk4[1],case_2_em[1]],['RK4 af f(x)','EM af f(x)','f(x)'],0.3,P0[0],functions=[eksaktf])	# Tilfælde 2
+	draw_graph([case_3_rk4[1],case_3_em[1]],['RK4 af g(x)','EM af g(x)','g(x)'],0.1,P1[0],functions=[eksaktg]) # Tilfælde 3
+	draw_graph([case_4_rk4[1],case_4_em[1]],['RK4 af g(x)','EM af g(x)','g(x)'],0.3,P1[0],functions=[eksaktg]) # Tilfælde 4
+
+
+
+
