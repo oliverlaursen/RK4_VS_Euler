@@ -33,19 +33,19 @@ def get_eksakt_values(f,n,h, x0):
 
 def eksaktf(x):
 	"""
-		Den eksakte løsning til differentialligningen f(P0x,P0y)
+		Den eksakte løsning til differentialligningen f(0,1)
 	"""
 	return e**((x**2)/4)
 
 def f(x,y):
 	"""
-		Differentialligningen f(P0)=f(x,y)=y' som har løsningsfunktionen eksaktf(x)
+		Differentialligningen f(x,y)=y' som har løsningsfunktionen eksaktf(x)
 	"""
 	return 0.5*x*y
 
 def eksaktg(x):
 	"""
-		Den eksakte løsning til differentialligningen g(P1x,P1y)
+		Den eksakte løsning til differentialligningen g(2,2)
 	"""
 	return (((4*x**3)+80)/3)**(1/4)
 
@@ -72,7 +72,8 @@ if __name__ == '__main__':
 	print(f'Kvadratsumfejl RK4 tilfælde 4: {beregn_præcision(rk4(g,P1,25,0.3)[1], get_eksakt_values(eksaktg,25,0.3,P1[0]))}		time = {rk4(f,P0,10,0.5)[0]}')
 	print(f'Kvadratsumfejl Euler tilfælde 4: {beregn_præcision(euler(g,P1,25,0.3)[1], get_eksakt_values(eksaktg,25,0.3,P1[0]))}		time = {euler(f,P0,10,0.5)[0]}')
 
-	draw_graph([rk4(f,P0,25,0.1)[1],euler(f,P0,25,0.1)[1]],['RK4 af f(x)','EM af f(x)','f(x)'],0.1,P0[0],functions=[eksaktf])	# Tilfælde 1
-	draw_graph([rk4(f,P0,25,0.3)[1],euler(f,P0,25,0.3)[1]],['RK4 af f(x)','EM af f(x)','f(x)'],0.3,P0[0],functions=[eksaktf])	# Tilfælde 2
-	draw_graph([rk4(g,P1,25,0.1)[1],euler(g,P1,25,0.1)[1]],['RK4 af g(x)','EM af g(x)','g(x)'],0.1,P1[0],functions=[eksaktg]) # Tilfælde 3
-	draw_graph([rk4(g,P1,25,0.3)[1],euler(g,P1,25,0.3)[1]],['RK4 af g(x)','EM af g(x)','g(x)'],0.3,P1[0],functions=[eksaktg]) # Tilfælde 4
+	draw_graph([rk4(f,P0,25,0.1)[1],euler(f,P0,25,0.1)[1]],['RK4 af a(x)','EM af a(x)','a(x)'],0.1,P0[0],functions=[eksaktf])	# Tilfælde 1
+	draw_graph([rk4(f,P0,25,0.3)[1],euler(f,P0,25,0.3)[1]],['RK4 af a(x)','EM af a(x)','a(x)'],0.3,P0[0],functions=[eksaktf])	# Tilfælde 2
+	draw_graph([rk4(g,P1,25,0.1)[1],euler(g,P1,25,0.1)[1]],['RK4 af b(x)','EM af b(x)','b(x)'],0.1,P1[0],functions=[eksaktg]) # Tilfælde 3
+	draw_graph([rk4(g,P1,25,0.3)[1],euler(g,P1,25,0.3)[1]],['RK4 af b(x)','EM af b(x)','b(x)'],0.3,P1[0],functions=[eksaktg]) # Tilfælde 4
+
